@@ -1,0 +1,11 @@
+CONFIGURAZIONE DS TOMCAT HOW TO
+1) AGGIUNGERE UTENTE AMMINISTRATORE (tomcat-users.xml)
+2) CONFIGURARE DS (server.xml): se vuoi avere la stessa conf devi mappare in /etc/hosts mysqlUbuntu con l'ip della vm
+3) COPIARE DRIVER (cp /opt/DbVisualizer/jdbc/mysql/mysql.jar Lavoro/apache-tomcat-8.5.37/lib/)
+4) Testare con la web app (sia Servlet, sia jsp)
+http://localhost:8080/SimpleWebAppDSTest/
+http://localhost:8080/SimpleWebAppDSTest/DataSource
+5) Attenzione: 
+- controllare su internet a cosa serve il file context
+- verificare come viene richiamato il ds
+- verificare di aver compreso tutti gli aspetti tra configurazione e sw
