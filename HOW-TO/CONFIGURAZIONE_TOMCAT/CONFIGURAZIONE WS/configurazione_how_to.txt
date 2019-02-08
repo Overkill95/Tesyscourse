@@ -1,0 +1,10 @@
+CONFIGURAZIONE WS TOMCAT HOW TO
+1) Creare web app e progetti correlati (
+2) Aggiunta lib (tomcat non ha le opportune librerie)
+3) Configurazione file sun-jaxws.xml e web.xml opportuna
+4) L'app dovrebbe essere disponibile alla url:
+http://localhost:8080/WS_SimpleWebApp_Web/SimpleWebWs
+5) Configurare SOAP UI
+6)Vedere script per la generazione dei file necessari
+
+TUTORIAL SEGUITO: https://www.mkyong.com/webservices/jax-ws/deploy-jax-ws-web-services-on-tomcat/

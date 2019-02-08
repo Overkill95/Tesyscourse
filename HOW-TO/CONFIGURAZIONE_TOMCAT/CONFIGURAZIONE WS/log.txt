@@ -1,0 +1,8 @@
+it
+META-INF
+it
+META-INF
+WSGEN: /usr/lib/jvm/jdk1.8.0_161/bin/wsgen
+CLASSPATH: /home/vmm_admin/Lavoro/Workspaces/MATTEO/HOW-TO/WS_SimpleWebApp_Web/build/classes:/home/vmm_admin/Lavoro/Workspaces/MATTEO/HOW-TO/WS_SimpleWebApp_Services/bin:/home/vmm_admin/Lavoro/Workspaces/MATTEO/HOW-TO/WS_SimpleWebApp_Dao/bin
+OUTPUT DIR: /home/vmm_admin/Lavoro/Workspaces/MATTEO/HOW-TO/WS_SimpleWebApp_Web/src
+COMMAND: /usr/lib/jvm/jdk1.8.0_161/bin/wsgen -classpath /home/vmm_admin/Lavoro/Workspaces/MATTEO/HOW-TO/WS_SimpleWebApp_Web/build/classes:/home/vmm_admin/Lavoro/Workspaces/MATTEO/HOW-TO/WS_SimpleWebApp_Services/bin:/home/vmm_admin/Lavoro/Workspaces/MATTEO/HOW-TO/WS_SimpleWebApp_Dao/bin it.simple.app.services.SimpleWebAppWs -d /home/vmm_admin/Lavoro/Workspaces/MATTEO/HOW-TO/WS_SimpleWebApp_Web/src -keep -s /home/vmm_admin/Lavoro/Workspaces/MATTEO/HOW-TO/WS_SimpleWebApp_Web/src
