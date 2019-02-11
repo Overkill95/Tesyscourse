@@ -78,6 +78,14 @@ public class SimpleDaoImpl implements SimpleDaoInterface {
 		catch (Exception e) {
 			log.error("SimpleDaoInterface getUserInfo ERROR",e);
 		}
+		finally {
+			try {
+				if(c!=null&&!c.isClosed())
+				c.close();
+			} catch (SQLException e) {
+				log.error("connection close error",e);
+			}
+		}
 		return l;
 	}
 
