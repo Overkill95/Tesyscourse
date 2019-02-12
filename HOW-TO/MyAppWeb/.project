@@ -3,7 +3,6 @@
 	<name>MyAppWeb</name>
 	<comment></comment>
 	<projects>
-		<project>MyAppDao</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

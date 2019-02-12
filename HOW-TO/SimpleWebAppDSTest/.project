@@ -3,6 +3,9 @@
 	<name>SimpleWebAppDSTest</name>
 	<comment></comment>
 	<projects>
+		<project>WS_SimpleWebApp_Services</project>
+		<project>WS_SimpleWebApp_Dao</project>
+		<project>WS_SimpleWebApp_Web</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

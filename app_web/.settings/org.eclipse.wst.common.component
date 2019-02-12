@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="app_web">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <dependent-module archiveName="app_dao.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/app_dao/app_dao">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="app_services.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/app_services/app_services">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="app_web"/>
+        <property name="java-output-path" value="/app_web/build/classes"/>
+    </wb-module>
+</project-modules>

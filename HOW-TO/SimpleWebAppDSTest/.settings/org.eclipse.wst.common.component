@@ -2,6 +2,15 @@
     <wb-module deploy-name="SimpleWebAppDSTest">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <dependent-module archiveName="WS_SimpleWebApp_Services.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/WS_SimpleWebApp_Services/WS_SimpleWebApp_Services">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="WS_SimpleWebApp_Dao.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/WS_SimpleWebApp_Dao/WS_SimpleWebApp_Dao">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="WS_SimpleWebApp_Web.war" deploy-path="/WEB-INF/lib" handle="module:/resource/WS_SimpleWebApp_Web/WS_SimpleWebApp_Web">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="SimpleWebAppDSTest"/>
         <property name="java-output-path" value="/SimpleWebAppDSTest/build/classes"/>
     </wb-module>

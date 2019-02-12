@@ -3,6 +3,7 @@
 	<name>WS_SimpleWebApp_Services</name>
 	<comment></comment>
 	<projects>
+		<project>WS_SimpleWebApp_Dao</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
