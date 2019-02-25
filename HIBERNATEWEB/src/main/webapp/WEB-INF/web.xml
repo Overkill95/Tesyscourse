@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+  <display-name>ServiziImpiegati</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  
+	<!--  Configurazione JAX WS -->
+    <listener>
+        <listener-class>
+                com.sun.xml.ws.transport.http.servlet.WSServletContextListener
+        </listener-class>
+    </listener>
+    <servlet>
+        <servlet-name>ServiziImpiegati</servlet-name>
+        <servlet-class>
+        	com.sun.xml.ws.transport.http.servlet.WSServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServiziImpiegati</servlet-name>
+        <url-pattern>/ServiziImpiegati</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>120</session-timeout>
+    </session-config>
+    
+    
+    
+    <servlet>
+        <servlet-name>ServiziDip</servlet-name>
+        <servlet-class>
+        	com.sun.xml.ws.transport.http.servlet.WSServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServiziDip</servlet-name>
+        <url-pattern>/ServiziDip</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>ServiziDeptEmp</servlet-name>
+        <servlet-class>
+        	com.sun.xml.ws.transport.http.servlet.WSServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServiziDeptEmp</servlet-name>
+        <url-pattern>/ServiziDeptEmp</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>ServiziDeptMan</servlet-name>
+        <servlet-class>
+        	com.sun.xml.ws.transport.http.servlet.WSServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServiziDeptMan</servlet-name>
+        <url-pattern>/ServiziDeptMan</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>ServiziTitoli</servlet-name>
+        <servlet-class>
+        	com.sun.xml.ws.transport.http.servlet.WSServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServiziTitoli</servlet-name>
+        <url-pattern>/ServiziTitoli</url-pattern>
+    </servlet-mapping>
+    
+    
+    <servlet>
+        <servlet-name>ServiziSalari</servlet-name>
+        <servlet-class>
+        	com.sun.xml.ws.transport.http.servlet.WSServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServiziSalari</servlet-name>
+        <url-pattern>/ServiziSalari</url-pattern>
+    </servlet-mapping>
+    
+    
+    <servlet>
+        <servlet-name>ServiziStatistiche</servlet-name>
+        <servlet-class>
+        	com.sun.xml.ws.transport.http.servlet.WSServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServiziStatistiche</servlet-name>
+        <url-pattern>/ServiziStatistiche</url-pattern>
+    </servlet-mapping>
+</web-app>

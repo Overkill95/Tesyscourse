@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<endpoints
+  xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime"
+  version="2.0">
+  <endpoint
+      name="ServiziImpiegati2"
+      implementation="it.matteo.crudhib.EmployeesServ"
+      url-pattern="/ServiziImpiegati2"/>
+  <endpoint
+      name="ServiziDipartimenti2"
+      implementation="it.matteo.crudhib.DepartmentsServ"
+      url-pattern="/ServiziDip"/>
+      <endpoint
+      name="ServiziDeptEmp2"
+      implementation="it.matteo.crudhib.DeptEmpServ"
+      url-pattern="/ServiziDeptEmp"/>
+      <endpoint
+      name="ServiziDeptMan2"
+      implementation="it.matteo.crudhib.DeptManServ"
+      url-pattern="/ServiziDeptMan"/>
+      <endpoint
+      name="ServiziTitoli"
+      implementation="it.matteo.crudhib.TitlesServ"
+      url-pattern="/ServiziTitoli"/>
+      <endpoint
+      name="ServiziSalari"
+      implementation="it.matteo.crudhib.SalariesServ"
+      url-pattern="/ServiziSalari"/>
+      
+      <endpoint
+      name="ServiziStatistiche"
+      implementation="it.matteo.crudhib.STATISTICS"
+      url-pattern="/ServiziStatistiche"/>
+</endpoints>
