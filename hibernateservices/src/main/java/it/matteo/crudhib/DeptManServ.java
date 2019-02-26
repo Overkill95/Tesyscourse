@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 
 import it.hibernate.DeptEmp;
 import it.hibernate.DeptEmpHome;
+import it.hibernate.DeptEmpOutput;
 import it.hibernate.DeptManager;
 import it.hibernate.DeptManagerHome;
 
@@ -42,7 +43,7 @@ public class DeptManServ {
 	@WebResult(name="DeptEmpInfo",
     targetNamespace="http://simpleWeb4.it/userInfo")
 	// @XmlJavaTypeAdapter(EmployeesAdapter.class)
-	public List<DeptEmp> readDeptManServ(@WebParam(name="DeptNo")String dept_no, @WebParam(name="empNo")Integer emp_no, @WebParam(name="fromdate") String from_date, @WebParam(name="todate") String to_date) {
+	public List<DeptEmpOutput> readDeptManServ(@WebParam(name="DeptNo")String dept_no, @WebParam(name="empNo")Integer emp_no, @WebParam(name="fromdate") String from_date, @WebParam(name="todate") String to_date) {
 			DeptEmpHome ed = new DeptEmpHome();
 			return ed.readDeptEmp(dept_no, emp_no, from_date, to_date);
 	}

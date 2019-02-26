@@ -224,6 +224,7 @@ public class TitlesHome {
 	    if(t_bool) q.setParameter("title", title);
 	    if (fd_bool) q.setParameter("from_date", from_date);
 	    if (td_bool)q.setParameter("to_date", to_date);
+	    q.setMaxResults(20);
 	    List res = q.getResultList();
 	    for (Object o : res) {
 	      Titles d = (Titles) o;
@@ -241,6 +242,7 @@ public class TitlesHome {
 			    log.info("Getting title count");
 			    String hql = "SELECT t.id.title, count(*) FROM Employees e INNER JOIN e.titleses t GROUP BY t.id.title";
 			    Query q=session.createQuery(hql);
+			    q.setMaxResults(20);
 			    List res=q.getResultList();
 			    for(Object r: res){
 				      Object[] row = (Object[]) r;

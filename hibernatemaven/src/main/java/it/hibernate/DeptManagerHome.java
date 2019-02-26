@@ -204,12 +204,12 @@ public class DeptManagerHome
     return query += " WHERE emp_no = :pkemp AND dept_no = :pkdep";
   }
   
-  public List<DeptManager> readDeptManager(String deptNo, Integer emp_no, String from_date, String to_date) { 
-	ArrayList<DeptManager> result = new ArrayList<DeptManager>();
+  public List<DeptManOutput> readDeptManager(String deptNo, Integer emp_no, String from_date, String to_date) { 
+	ArrayList<DeptManOutput> result = new ArrayList<DeptManOutput>();
     Session session = factory.openSession();
     Transaction tx = null;
     tx = session.beginTransaction();
-    log.info("Select on departments");
+    log.info("Select on DeptManager");
     boolean emp_no_bool = true;
     if (emp_no == null) emp_no_bool = false;
     boolean dept_no_bool = !StringUtils.isNullOrEmpty(deptNo);
@@ -229,10 +229,16 @@ public class DeptManagerHome
     if (emp_no_bool) q.setParameter("emp_no", emp_no);
     if (fd_bool) q.setParameter("from_date", from_date);
     if (td_bool)q.setParameter("to_date", to_date);
+    q.setMaxResults(20);
     List res = q.getResultList();
     for (Object o : res) {
-      DeptManager d = (DeptManager)o;
-      result.add(d);
+    	DeptManager d = (DeptManager)o;
+        Employees e = d.getEmployees();
+        Departments ds=d.getDepartments();
+        SimpleEmployee se=new SimpleEmployee(e.getEmpNo(), e.getBirthDate(), e.getFirstName(), e.getLastName(), e.getGender(), e.getHireDate());
+        SimpleDepartment sd=new SimpleDepartment(ds.getDeptNo(), ds.getDeptName());
+        DeptManOutput deo=new DeptManOutput(se, sd, d.getFromDate(), d.getToDate());
+        result.add(deo);
     }
     return result;
   }

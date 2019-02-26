@@ -252,6 +252,7 @@ public List<DepCountOutput> DepCount() {
     log.info("Getting dep count");
     String hql = "SELECT d.deptNo, d.deptName, count(*) FROM Departments d INNER JOIN d.deptEmps de join de.employees e GROUP BY d.deptNo";
     Query q=session.createQuery(hql);
+    q.setMaxResults(20);
     List res=q.getResultList();
     for(Object r: res){
 	      Object[] row = (Object[]) r;
@@ -274,6 +275,7 @@ public List<ManCountOutput> ManCount() {
 	    log.info("Getting manager count");
 	    String hql = "SELECT d.deptNo, d.deptName, count(*) FROM Departments d INNER JOIN d.deptMans dm join dm.employees e GROUP BY d.deptNo";
 	    Query q=session.createQuery(hql);
+	    q.setMaxResults(20);
 	    List res=q.getResultList();
 	    for(Object r: res){
 		      Object[] row = (Object[]) r;

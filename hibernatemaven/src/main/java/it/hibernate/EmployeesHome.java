@@ -306,6 +306,7 @@ public class EmployeesHome
     if (ln_bool) q.setParameter("last_name", last_name);
     if (g_bool) q.setParameter("gender", gender);
     if (hd_bool) q.setParameter("hire_date", hire_date);
+    q.setMaxResults(20);
     List res = q.getResultList();
     for (Object o : res) {
       Employees e = (Employees)o;
@@ -336,6 +337,7 @@ public class EmployeesHome
 	    log.info("Getting employees for sex and title");
 	    String hql = "SELECT t.id.title, e.gender, count(*) as count FROM Employees e INNER JOIN e.titleses t GROUP BY e.gender, t.id.title";
 	    Query q=session.createQuery(hql);
+	    q.setMaxResults(20);
 	    List res=q.getResultList();
 	    for(Object r: res){
 	      Object[] row = (Object[]) r;
@@ -356,6 +358,7 @@ public List<ManSalaryTitleOutput> ManSalaryTitleCount() {
     log.info("Getting manager count");
     String hql = "SELECT s.salary, t.id.title, count(*) FROM Titles t INNER JOIN t.employees e INNER JOIN e.deptManagers dm GROUP BY s.salary, t.id.title";
     Query q=session.createQuery(hql);
+    q.setMaxResults(20);
     List res=q.getResultList();
     for(Object r: res){
 	      Object[] row = (Object[]) r;
@@ -377,6 +380,7 @@ public List<DepManInfoOutput> DepManEmployeeInfo(Integer emp_no) {
     String hql = "SELECT d.deptNo, d.deptName, de.fromDate, de.toDate, em.empNo, em.birthDate, em.firstName, em.lastName, em.gender, em.hireDate, t.id.title, s.salary FROM Employees e INNER JOIN e.deptEmps de INNER JOIN de.departments d INNER JOIN d.deptManagers dm INNER JOIN dm.employees em INNER JOIN em.salarieses s INNER JOIN em.titleses t WHERE e.empNo= :emp_no AND ((dm.fromDate BETWEEN de.fromDate AND de.toDate) OR (dm.toDate BETWEEN de.fromDate AND de.toDate))";
     Query q=session.createQuery(hql);
     q.setParameter("emp_no", emp_no);
+    q.setMaxResults(20);
     List res=q.getResultList();
     for(Object r: res){
 	      Object[] row = (Object[]) r;
@@ -414,6 +418,7 @@ public List<RangeDistributionOutput> RangeDistributionInfo() {
 		 Query q=session.createQuery(hql);
 		 q.setParameter("lowerbound", lowerbound);
 		 q.setParameter("upperbound", upperbound);
+		 q.setMaxResults(20);
 		 List res=q.getResultList();
 		    for(Object r: res){
 			      Object[] row = (Object[]) r;

@@ -15,7 +15,7 @@ import it.hibernate.EmployeesOutput;
 @WebService(serviceName="ServiziImpiegati2", name="SimpleWebPortType2",
 targetNamespace="http://simpleWeb3.it")
 public class EmployeesServ {
-	private static final Logger log=Logger.getLogger(DepartmentsServ.class);
+	private static final Logger log=Logger.getLogger(EmployeesServ.class);
 	@WebMethod
 	public void insertEmployeeServ(@WebParam(name="emp_no") Integer emp_no , @WebParam(name="birth_date")Date birth_date, @WebParam(name="first_name") String first_name, @WebParam(name="last_name") String last_name, @WebParam(name="gender")String g, @WebParam(name="hire_date")Date hire_date) {
 		    Employees e=new Employees();

@@ -1,19 +1,19 @@
 package it.hibernate;
 
+import com.mysql.jdbc.StringUtils;
+
+import it.matteo.hibernatemaven.utils.InvalidInputException;
+
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.Query;
-
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
-
-import com.mysql.jdbc.StringUtils;
 
 
 
@@ -204,8 +204,8 @@ public class DeptEmpHome
     return query += " WHERE emp_no = :pkemp AND dept_no = :pkdep";
   }
   
-  public List<DeptEmp> readDeptEmp(String deptNo, Integer emp_no, String from_date, String to_date) { 
-    ArrayList<DeptEmp> result = new ArrayList<DeptEmp>();
+  public List<DeptEmpOutput> readDeptEmp(String deptNo, Integer emp_no, String from_date, String to_date) { 
+    ArrayList<DeptEmpOutput> result = new ArrayList<DeptEmpOutput>();
     Session session = factory.openSession();
     Transaction tx = null;
     tx = session.beginTransaction();
@@ -229,10 +229,16 @@ public class DeptEmpHome
     if (emp_no_bool) q.setParameter("emp_no", emp_no);
     if (fd_bool) q.setParameter("from_date", from_date);
     if (td_bool)q.setParameter("to_date", to_date);
+    q.setMaxResults(20);
     List res = q.getResultList();
     for (Object o : res) {
       DeptEmp d = (DeptEmp)o;
-      result.add(d);
+      Employees e = d.getEmployees();
+      Departments ds=d.getDepartments();
+      SimpleEmployee se=new SimpleEmployee(e.getEmpNo(), e.getBirthDate(), e.getFirstName(), e.getLastName(), e.getGender(), e.getHireDate());
+      SimpleDepartment sd=new SimpleDepartment(ds.getDeptNo(), ds.getDeptName());
+      DeptEmpOutput deo=new DeptEmpOutput(se, sd, d.getFromDate(), d.getToDate());
+      result.add(deo);
     }
     return result;
   }

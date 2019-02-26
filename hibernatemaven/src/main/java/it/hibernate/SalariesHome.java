@@ -219,6 +219,7 @@ public class SalariesHome {
 	    if (s_bool) q.setParameter("salary", salary);
 	    if (fd_bool) q.setParameter("from_date", from_date);
 	    if (td_bool)q.setParameter("to_date", to_date);
+	    q.setMaxResults(20);
 	    List res = q.getResultList();
 	    for (Object o : res) {
 	      Salaries d = (Salaries) o;
@@ -236,6 +237,7 @@ public class SalariesHome {
 	    log.info("Getting max min salary");
 	    String hql = "SELECT t.id.title, d.deptName, max(s.salary) as max, min(s.salary) as min FROM Employees e INNER JOIN e.titleses t INNER JOIN e.deptEmps de INNER JOIN de.departments d INNER JOIN e.salarieses s GROUP BY t.id.title, d.deptName";
 	    Query q=session.createQuery(hql);
+	    q.setMaxResults(20);
 	    List res=q.getResultList();
 	    for(Object r: res){
 		      Object[] row = (Object[]) r;
@@ -257,6 +259,7 @@ public class SalariesHome {
 	    log.info("Getting salary count");
 	    String hql = "SELECT s.salary, count(*) FROM Employees e INNER JOIN e.salarieses s GROUP BY s.salary";
 	    Query q=session.createQuery(hql);
+	    q.setMaxResults(20);
 	    List res=q.getResultList();
 	    for(Object r: res){
 		      Object[] row = (Object[]) r;
