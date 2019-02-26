@@ -1,17 +1,17 @@
 package it.matteo.crudhib;
-import java.util.*;
-
-import javax.jws.*;
-import org.apache.log4j.Logger;
 import java.sql.Date;
+import java.util.List;
 
-import it.hibernate.*;
-//import it.matteo.hibernatemaven.dao.*;
-import it.matteo.hibernatemaven.utils.Gender;
-import it.matteo.hibernatemaven.utils.InvalidInputException;
-//import it.matteo.hibernatemaven.vo.Employees;
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+import javax.jws.WebResult;
+import javax.jws.WebService;
 
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import org.apache.log4j.Logger;
+
+import it.hibernate.Employees;
+import it.hibernate.EmployeesHome;
+import it.hibernate.EmployeesOutput;
 @WebService(serviceName="ServiziImpiegati2", name="SimpleWebPortType2",
 targetNamespace="http://simpleWeb3.it")
 public class EmployeesServ {

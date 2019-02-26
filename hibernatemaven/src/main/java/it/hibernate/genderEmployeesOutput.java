@@ -33,7 +33,7 @@ public class genderEmployeesOutput {
 	public long getCount() {
 		return count;
 	}
-	public void setCount(int count) {
+	public void setCount(long count) {
 		this.count = count;
 	}
 	

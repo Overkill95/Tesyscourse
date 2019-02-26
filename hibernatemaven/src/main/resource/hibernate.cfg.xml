@@ -8,11 +8,13 @@
  	<property name="hibernate.connection.datasource">java:/comp/env/jdbc/MySql</property>
  	<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
  	<property name = "hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
- 	    <mapping class="it.matteo.hibernatemaven.vo.Employees"/>
-        <mapping class="it.matteo.hibernatemaven.vo.Departments"/>
-        <mapping class="it.matteo.hibernatemaven.vo.DepartmentManager"/>
-        <mapping class="it.matteo.hibernatemaven.vo.DeptEmp"/>
-        <mapping class="it.matteo.hibernatemaven.vo.Salaries"/>
-        <mapping class="it.matteo.hibernatemaven.vo.Titles"/>
+        <mapping class="it.hibernate.DeptEmp"/>
+        <mapping class="it.hibernate.Departments"/>
+        <mapping class="it.hibernate.DeptEmpLatestDate"/>
+        <mapping class="it.hibernate.Salaries"/>
+        <mapping class="it.hibernate.Titles"/>
+        <mapping class="it.hibernate.Employees"/>
+        <mapping class="it.hibernate.CurrentDeptEmp"/>
+		<mapping class="it.hibernate.DeptManager"/>
  </session-factory>
 </hibernate-configuration>

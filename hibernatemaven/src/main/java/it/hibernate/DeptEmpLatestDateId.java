@@ -2,6 +2,7 @@ package it.hibernate;
 // Generated 22-feb-2019 8.27.08 by Hibernate Tools 5.0.6.Final
 
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 

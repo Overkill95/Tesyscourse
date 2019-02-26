@@ -9,7 +9,10 @@ import javax.jws.WebResult;
 import javax.jws.WebService;
 
 import org.apache.log4j.Logger;
-import it.hibernate.*;
+
+import it.hibernate.Departments;
+import it.hibernate.DepartmentsHome;
+import it.hibernate.DepartmentsOutput;
 import it.matteo.hibernatemaven.utils.InvalidInputException;
 
 @WebService(serviceName="ServiziDipartimenti", name="SimpleWebPortTypeDep",

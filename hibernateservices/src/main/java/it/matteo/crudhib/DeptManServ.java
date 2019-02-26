@@ -9,7 +9,11 @@ import javax.jws.WebResult;
 import javax.jws.WebService;
 
 import org.apache.log4j.Logger;
-import it.hibernate.*;
+
+import it.hibernate.DeptEmp;
+import it.hibernate.DeptEmpHome;
+import it.hibernate.DeptManager;
+import it.hibernate.DeptManagerHome;
 
 @WebService(serviceName="ServiziDipMan", name="SimpleWebPortTypeDeptMan",
 targetNamespace="http://simpleWeb4.it")

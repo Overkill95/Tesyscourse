@@ -10,16 +10,9 @@ import javax.jws.WebService;
 
 import org.apache.log4j.Logger;
 
-import it.hibernate.Departments;
-import it.hibernate.DepartmentsHome;
-import it.hibernate.Employees;
-import it.hibernate.EmployeesHome;
 import it.hibernate.Salaries;
 import it.hibernate.SalariesHome;
 import it.hibernate.SalariesId;
-import it.hibernate.Titles;
-import it.hibernate.TitlesHome;
-import it.matteo.hibernatemaven.utils.InvalidInputException;
 @WebService(serviceName="ServiziSalari", name="SimpleWebPortTypeSal", targetNamespace="http://simpleWeb3.it")
 public class SalariesServ {
 	private static final Logger log=Logger.getLogger(SalariesServ.class);

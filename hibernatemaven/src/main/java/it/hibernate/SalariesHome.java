@@ -3,9 +3,6 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-// Generated 22-feb-2019 8.27.09 by Hibernate Tools 5.0.6.Final
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
@@ -14,8 +11,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
-
-import com.mysql.jdbc.StringUtils;
 
 /**
  * Home object for domain model class Salaries.
