@@ -46,20 +46,27 @@ public class DeptManagerHome
   
   public void insertDeptMan(DeptManager dp, String dept_no, Integer emp_no) { Session session = factory.openSession();
     Transaction tx = null;
+    if(emp_no==null && dept_no==null) return;
     try {
       tx = session.beginTransaction();
+      DeptManagerId id=new DeptManagerId();
       if (dept_no != null) {
         Departments d = (Departments)session.load(Departments.class, dept_no);
+        id.setDeptNo(d.getDeptNo());
         d.AddDeptManagers(dp);
         dp.setDepartments(d);
       }
       if (emp_no != null) {
         Employees e = (Employees)session.load(Employees.class, emp_no);
+        id.setEmpNo(e.getEmpNo());
         e.AddDeptManagers(dp);
         session.flush();
         dp.setEmployees(e);
       }
+      dp.setId(id);
+      log.info("Inserting association between employees and department (Manager), emp_no: " + dp.getEmployees().getEmpNo() + " and dept_no: " + dp.getDepartments().getDeptNo());
       session.save(dp);
+      log.info("Save success");
       tx.commit();
     }
     catch (HibernateException e) {
@@ -76,11 +83,11 @@ public class DeptManagerHome
     Transaction tx = null;
     try {
       tx = session.beginTransaction();
-      StringBuilder s = new StringBuilder("DELETE FROM DeptManager d WHERE 1=1 ");
+      StringBuilder s = new StringBuilder("FROM DeptManager d WHERE 1=1");
       if (dept_no != null) {
-        s.append("AND d.departments.deptNo = :dept_no ");
+        s.append(" AND d.departments.deptNo = :dept_no ");
       }
-      if (emp_no != null) s.append("AND d.employees.empNo = :emp_no");
+      if (emp_no != null) s.append(" AND d.employees.empNo = :emp_no");
       Query q = session.createQuery(s.toString());
       if (dept_no != null) {
         q.setParameter("dept_no", dept_no);
@@ -90,7 +97,10 @@ public class DeptManagerHome
       }
       List result = q.getResultList();
       for (Object o : result) {
+    	DeptManager dm=(DeptManager) o;
+    	log.info("Deleting association between employee and department with emp_no:" + dm.getEmployees().getEmpNo() + "And dept_no: " + dm.getDepartments().getDeptNo());
         delete.add((DeptManager)o);
+        log.info("Delete success");
       }
       for (DeptManager d : delete) {
         session.delete(d);
@@ -215,15 +225,15 @@ public class DeptManagerHome
     boolean dept_no_bool = !StringUtils.isNullOrEmpty(deptNo);
     boolean fd_bool = !StringUtils.isNullOrEmpty(from_date);
     boolean td_bool = !StringUtils.isNullOrEmpty(to_date);
-    StringBuilder hql = new StringBuilder("FROM DeptManager d WHERE 1=1 ");
+    StringBuilder hql = new StringBuilder("FROM DeptManager d WHERE 1=1");
     if (dept_no_bool)
-      hql.append("AND d.departments.deptNo = :dept_no ");
+      hql.append(" AND d.departments.deptNo = :dept_no");
     if (emp_no_bool)
-      hql.append("AND d.employees.empNo = :emp_no ");
+      hql.append(" AND d.employees.empNo = :emp_no");
     if (fd_bool)
-      hql.append("AND d.fromDate = :from_date ");
+      hql.append(" AND d.fromDate = :from_date");
     if (td_bool)
-      hql.append("AND d.toDate = :to_date");
+      hql.append(" AND d.toDate = :to_date");
     Query q = session.createQuery(hql.toString());
     if (dept_no_bool) q.setParameter("dept_no", deptNo);
     if (emp_no_bool) q.setParameter("emp_no", emp_no);

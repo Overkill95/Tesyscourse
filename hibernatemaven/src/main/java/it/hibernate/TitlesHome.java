@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Query;
+import javax.sound.midi.MidiDevice.Info;
 
 //import org.apache.commons.logging.Log;
 //import org.apache.commons.logging.LogFactory;
@@ -67,13 +68,13 @@ public class TitlesHome {
 	    Transaction tx = null;
 	    try {
 	      tx = session.beginTransaction();
-	      StringBuilder s = new StringBuilder("DELETE FROM Titles t WHERE 1=1 ");
+	      StringBuilder s = new StringBuilder("FROM Titles t WHERE 1=1");
 	      if (emp_no != null) {
-	        s.append("AND t.employees.empNo = :emp_no ");
+	        s.append(" AND t.id.empNo = :emp_no ");
 	      }
-	      if (title != null) s.append("AND t.id.title = :title");
-	      if (fromDate != null) s.append("AND t.id.fromDate = :from_date");
-	      if (toDate != null) s.append("AND t.toDate = :to_date");
+	      if (title != null) s.append(" AND t.id.title = :title");
+	      if (fromDate != null) s.append(" AND t.id.fromDate = :from_date");
+	      if (toDate != null) s.append(" AND t.toDate = :to_date");
 	      Query q = session.createQuery(s.toString());
 	      if(emp_no!=null)
 	    	  q.setParameter("emp_no", emp_no);
@@ -90,7 +91,9 @@ public class TitlesHome {
 	        delete.add((Titles)o);
 	      }
 	      for (Titles d : delete) {
+	    	log.info(" Deleting title: "+d.getId().getTitle() +" For Employee: " + d.getEmployees().getEmpNo()+ " from Date: " + d.getId().getFromDate() + " To Date: " + d.getToDate());
 	        session.delete(d);
+	        log.info("Delete success");
 	      }
 	      tx.commit();
 	    }
@@ -154,7 +157,7 @@ public class TitlesHome {
 		    if(td_bool) {
 		    		hql.append(" AND t.toDate = :to_date");
 		    }
-		    
+	
 		    Query q = session.createQuery(hql.toString());
 		    
 		    if (emp_no_bool_new) q.setParameter("emp_no_new", emp_no_new);
@@ -166,6 +169,7 @@ public class TitlesHome {
 		    if(t_bool) q.setParameter("title", title);
 		    if (fd_bool) q.setParameter("from_date", fromDate);
 		    if (td_bool)q.setParameter("to_date", toDate);
+		    log.info("Query invocata:" + hql.toString());
 		    int ret=q.executeUpdate();
 		    log.info("Numero righe modificate: " + ret);
 		    tx.commit();
@@ -201,34 +205,39 @@ public class TitlesHome {
 	    return query += " WHERE emp_no = :pkemp AND dept_no = :pkdep";
 	  }
 	  
-	  public List<Titles> readTitle( Integer emp_no, String title, Date from_date, Date to_date) { 
-	    ArrayList<Titles> result = new ArrayList<Titles>();
-	    if(session==null) session = factory.openSession();
+	  public List<TitlesOutput> readTitle( Integer emp_no, String title, Date from_date, Date to_date) { 
+	    ArrayList<TitlesOutput> result = new ArrayList<TitlesOutput>();
+	     session = factory.openSession();
 	    log.info("Select on titles");
 	    boolean emp_no_bool = true;
 	    if (emp_no == null) emp_no_bool = false;
 	    boolean t_bool = !StringUtils.isNullOrEmpty(title);
 	    boolean fd_bool = from_date!=null;
 	    boolean td_bool = to_date!=null;
-	    StringBuilder hql = new StringBuilder("FROM Titles t WHERE 1=1 ");
+	    StringBuilder hql = new StringBuilder("FROM Titles t WHERE 1=1");
 	    if (emp_no_bool)
-	      hql.append("AND t.employees.empNo = :emp_no ");
+	      hql.append(" AND t.employees.empNo = :emp_no");
 	    if(t_bool)
-	    	hql.append("AND t.id.title = :title ");
+	    	hql.append(" AND t.id.title = :title");
 	    if (fd_bool)
-	      hql.append("AND t.id.fromDate = :from_date ");
+	      hql.append(" AND t.id.fromDate = :from_date");
 	    if (td_bool)
-	      hql.append("AND t.toDate = :to_date");
+	      hql.append(" AND t.toDate = :to_date");
 	    Query q = session.createQuery(hql.toString());
 	    if (emp_no_bool) q.setParameter("emp_no", emp_no);
 	    if(t_bool) q.setParameter("title", title);
 	    if (fd_bool) q.setParameter("from_date", from_date);
 	    if (td_bool)q.setParameter("to_date", to_date);
 	    q.setMaxResults(20);
+	    log.info("Query invocata: " + hql.toString());
 	    List res = q.getResultList();
 	    for (Object o : res) {
 	      Titles d = (Titles) o;
-	      result.add(d);
+	      Employees e=d.getEmployees();
+	      SimpleEmployee se=new SimpleEmployee(e.getEmpNo(), e.getBirthDate(), e.getFirstName(), e.getLastName(), e.getGender(), e.getHireDate());
+	      TitlesOutput to=new TitlesOutput(d.getId().getTitle(), d.getId().getFromDate(), se);
+	      log.info("Selected title: " + to.getTitle() + "For employee: " + to.getSe().getEmpNo());
+	      result.add(to);
 	    }
 	    return result;
 	  }
@@ -243,6 +252,7 @@ public class TitlesHome {
 			    String hql = "SELECT t.id.title, count(*) FROM Employees e INNER JOIN e.titleses t GROUP BY t.id.title";
 			    Query q=session.createQuery(hql);
 			    q.setMaxResults(20);
+			    log.info("Query invocata: " + hql.toString());
 			    List res=q.getResultList();
 			    for(Object r: res){
 				      Object[] row = (Object[]) r;

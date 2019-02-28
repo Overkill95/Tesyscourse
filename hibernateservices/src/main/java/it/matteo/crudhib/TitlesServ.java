@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import it.hibernate.Titles;
 import it.hibernate.TitlesHome;
 import it.hibernate.TitlesId;
+import it.hibernate.TitlesOutput;
 @WebService(serviceName="ServiziTitoli", name="SimpleWebPortTypeTitle", targetNamespace="http://simpleWeb3.it")
 public class TitlesServ {
 	private static final Logger log=Logger.getLogger(DepartmentsServ.class);
@@ -39,7 +40,7 @@ public class TitlesServ {
 	@WebResult(name="EmployeesInfo",
     targetNamespace="http://simpleWeb4.it/userInfo")
 	// @XmlJavaTypeAdapter(EmployeesAdapter.class)
-	public List<Titles> readTitlesServ(@WebParam(name="EmpNo")Integer emp_no, @WebParam(name="title")String title, @WebParam(name="from_date") Date from_date, @WebParam(name="to_date")Date to_date) {
+	public List<TitlesOutput> readTitlesServ(@WebParam(name="EmpNo")Integer emp_no, @WebParam(name="title")String title, @WebParam(name="from_date") Date from_date, @WebParam(name="to_date")Date to_date) {
 			TitlesHome th = new TitlesHome();
 			return th.readTitle(emp_no,title,from_date,to_date);
 	}

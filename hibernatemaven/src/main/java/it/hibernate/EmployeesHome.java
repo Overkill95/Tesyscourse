@@ -52,11 +52,14 @@ public class EmployeesHome
     Transaction tx = null;
     try {
       tx = session.beginTransaction();
+      log.info("Inserting employee with id: " + o.getEmpNo());
       session.save(o);
+      log.info("Save success");
       tx.commit();
     }
     catch (HibernateException e) {
       if (tx != null) tx.rollback();
+      log.error("Save error");
       log.error(e);
     }
     finally {
@@ -70,15 +73,15 @@ public class EmployeesHome
 	    Transaction tx = null;
 	    try {
 	      tx = session.beginTransaction();
-	      StringBuilder s = new StringBuilder("FROM Employees e WHERE 1=1 ");
+	      StringBuilder s = new StringBuilder("FROM Employees e WHERE 1=1");
 	      if (emp_no != null) {
-	        s.append("AND e.empNo = :emp_no ");
+	        s.append(" AND e.empNo = :emp_no");
 	      }
-	      if (birth_date != null) s.append("AND e.birthDate = :birth_date ");
-	      if (first_name != null) s.append("AND e.firstName = :first_name ");
-	      if (last_name != null) s.append("AND e.lastName = :last_name ");
-	      if (g != null) s.append("AND e.gender = :gender ");
-	      if(hire_date != null) s.append("AND e.hireDate = :hire_date");
+	      if (birth_date != null) s.append(" AND e.birthDate = :birth_date");
+	      if (first_name != null) s.append(" AND e.firstName = :first_name");
+	      if (last_name != null) s.append(" AND e.lastName = :last_name");
+	      if (g != null) s.append(" AND e.gender = :gender");
+	      if(hire_date != null) s.append(" AND e.hireDate = :hire_date");
 	      Query q = session.createQuery(s.toString());
 	      if (emp_no != null) {
 	        q.setParameter("emp_no", emp_no);
@@ -100,10 +103,14 @@ public class EmployeesHome
 		      }
 	      List result = q.getResultList();
 	      for (Object o : result) {
+	    	Employees e=(Employees) o;
+	    	log.info("Deleting employee with id: " + e.getEmpNo() + "And name: " + e.getFirstName());
 	        delete.add((Employees)o);
 	      }
 	      for (Employees emp : delete) {
+	    	log.info("Deleting emp_no: " + emp.getEmpNo());
 	        session.delete(emp);
+	        log.info("Delete success");
 	      }
 	      tx.commit();
 	    }
@@ -213,6 +220,7 @@ public class EmployeesHome
 		    if(ln_bool) q.setParameter("last_name",ln);
 		    if(g_bool) q.setParameter("gender", g);
 		    if(hd_bool) q.setParameter("hire_date", hd);
+		    log.info("Query invocata: " + hql.toString());
 		    int ret=q.executeUpdate();
 		    log.info("Numero righe modificate: " + ret);
 		    tx.commit();
@@ -286,19 +294,19 @@ public class EmployeesHome
     boolean ln_bool = !StringUtils.isNullOrEmpty(last_name);
     boolean g_bool = !StringUtils.isNullOrEmpty(gender);
     boolean hd_bool = hire_date != null;
-    StringBuilder hql = new StringBuilder("FROM Employees e WHERE 1=1 ");
+    StringBuilder hql = new StringBuilder("FROM Employees e WHERE 1=1");
     if (emp_no_bool)
-      hql.append("AND e.empNo = :emp_no");
+      hql.append(" AND e.empNo = :emp_no");
     if (bd_bool)
-      hql.append("AND e.birthDate = :birth_date");
+      hql.append(" AND e.birthDate = :birth_date");
     if (fn_bool)
-      hql.append("AND e.firstName = :first_name");
+      hql.append(" AND e.firstName = :first_name");
     if (ln_bool)
       hql.append("AND e.lastName = :last_name");
     if (g_bool)
-      hql.append("AND e.gender = :gender");
+      hql.append(" AND e.gender = :gender");
     if (hd_bool)
-      hql.append("AND e.hireDate = :hire_date");
+      hql.append(" AND e.hireDate = :hire_date");
     Query q = session.createQuery(hql.toString());
     if (emp_no_bool) q.setParameter("emp_no", emp_no);
     if (bd_bool) q.setParameter("birth_date", birth_date);
@@ -307,6 +315,7 @@ public class EmployeesHome
     if (g_bool) q.setParameter("gender", gender);
     if (hd_bool) q.setParameter("hire_date", hire_date);
     q.setMaxResults(20);
+    log.info("Query invocata: " + hql.toString());
     List res = q.getResultList();
     for (Object o : res) {
       Employees e = (Employees)o;
@@ -325,6 +334,7 @@ public class EmployeesHome
     	  DeptManOutput deptmanout=new DeptManOutput(null,sd, dm.getFromDate(), dm.getToDate());
     	  dout.AddEmployeeMan(deptmanout);
       }
+      log.info("Selected emp_no: " + dout.getEmpNo() + "Birth date : " + dout.getBirthDate() + "first name : " + dout.getFirstName() + "last name: " + dout.getLastName() + "gender: " +dout.getGender() + "hiredate: " + dout.getHireDate());
       result.add(dout);
     }
     return result;
@@ -338,6 +348,7 @@ public class EmployeesHome
 	    String hql = "SELECT t.id.title, e.gender, count(*) as count FROM Employees e INNER JOIN e.titleses t GROUP BY e.gender, t.id.title";
 	    Query q=session.createQuery(hql);
 	    q.setMaxResults(20);
+	    log.info("Query invocata: " + hql.toString());
 	    List res=q.getResultList();
 	    for(Object r: res){
 	      Object[] row = (Object[]) r;
@@ -359,6 +370,7 @@ public List<ManSalaryTitleOutput> ManSalaryTitleCount() {
     String hql = "SELECT s.salary, t.id.title, count(*) FROM Titles t INNER JOIN t.employees e INNER JOIN e.deptManagers dm GROUP BY s.salary, t.id.title";
     Query q=session.createQuery(hql);
     q.setMaxResults(20);
+    log.info("Query invocata: " + hql.toString());
     List res=q.getResultList();
     for(Object r: res){
 	      Object[] row = (Object[]) r;
@@ -381,6 +393,7 @@ public List<DepManInfoOutput> DepManEmployeeInfo(Integer emp_no) {
     Query q=session.createQuery(hql);
     q.setParameter("emp_no", emp_no);
     q.setMaxResults(20);
+    log.info("Query invocata: " + hql.toString());
     List res=q.getResultList();
     for(Object r: res){
 	      Object[] row = (Object[]) r;
@@ -419,6 +432,7 @@ public List<RangeDistributionOutput> RangeDistributionInfo() {
 		 q.setParameter("lowerbound", lowerbound);
 		 q.setParameter("upperbound", upperbound);
 		 q.setMaxResults(20);
+		 log.info("Query invocata: " + hql.toString());
 		 List res=q.getResultList();
 		    for(Object r: res){
 			      Object[] row = (Object[]) r;

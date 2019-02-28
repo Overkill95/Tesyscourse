@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import it.hibernate.Salaries;
 import it.hibernate.SalariesHome;
 import it.hibernate.SalariesId;
+import it.hibernate.SalariesOutput;
 @WebService(serviceName="ServiziSalari", name="SimpleWebPortTypeSal", targetNamespace="http://simpleWeb3.it")
 public class SalariesServ {
 	private static final Logger log=Logger.getLogger(SalariesServ.class);
@@ -40,7 +41,7 @@ public class SalariesServ {
 	@WebResult(name="EmployeesInfo",
     targetNamespace="http://simpleWeb4.it/userInfo")
 	// @XmlJavaTypeAdapter(EmployeesAdapter.class)
-	public List<Salaries> readSalariesServ(@WebParam(name="EmpNo")Integer emp_no, @WebParam(name="salary")Integer salary, @WebParam(name="from_date") Date from_date, @WebParam(name="to_date")Date to_date) {
+	public List<SalariesOutput> readSalariesServ(@WebParam(name="EmpNo")Integer emp_no, @WebParam(name="salary")Integer salary, @WebParam(name="from_date") Date from_date, @WebParam(name="to_date")Date to_date) {
 			SalariesHome th = new SalariesHome();
 			return th.readSalary(emp_no,salary,from_date,to_date);
 	}

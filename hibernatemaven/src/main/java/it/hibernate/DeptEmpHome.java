@@ -46,20 +46,26 @@ public class DeptEmpHome
   
   public void insertDeptEmp(DeptEmp dp, String dept_no, Integer emp_no) { Session session = factory.openSession();
     Transaction tx = null;
+    if(emp_no==null && dept_no==null) return;
     try {
       tx = session.beginTransaction();
+      DeptEmpId id=new DeptEmpId();
       if (dept_no != null) {
         Departments d = (Departments)session.load(Departments.class, dept_no);
+        id.setDeptNo(d.getDeptNo());
         d.AddDeptEmps(dp);
         dp.setDepartments(d);
       }
       if (emp_no != null) {
         Employees e = (Employees)session.load(Employees.class, emp_no);
+        id.setEmpNo(e.getEmpNo());
         e.AddDeptEmps(dp);
-        session.flush();
         dp.setEmployees(e);
       }
+      dp.setId(id);
+      log.info("Inserting association between employees and department (working in), emp_no: " + dp.getEmployees().getEmpNo() + " and dept_no: " + dp.getDepartments().getDeptNo());
       session.save(dp);
+      log.info("Save success");
       tx.commit();
     }
     catch (HibernateException e) {
@@ -76,11 +82,11 @@ public class DeptEmpHome
     Transaction tx = null;
     try {
       tx = session.beginTransaction();
-      StringBuilder s = new StringBuilder("DELETE FROM DeptEmp d WHERE 1=1 ");
+      StringBuilder s = new StringBuilder("FROM DeptEmp d WHERE 1=1");
       if (dept_no != null) {
-        s.append("AND d.departments.deptNo = :dept_no ");
+        s.append(" AND d.departments.deptNo = :dept_no ");
       }
-      if (emp_no != null) s.append("AND d.employees.empNo = :emp_no");
+      if (emp_no != null) s.append(" AND d.employees.empNo = :emp_no");
       Query q = session.createQuery(s.toString());
       if (dept_no != null) {
         q.setParameter("dept_no", dept_no);
@@ -90,14 +96,20 @@ public class DeptEmpHome
       }
       List result = q.getResultList();
       for (Object o : result) {
+    	  DeptEmp de=(DeptEmp) o;
+    	  log.info("Deleting association between employees and departments with dept_no: " + de.getDepartments().getDeptNo() + "And emp_no: " + de.getEmployees().getEmpNo());
         delete.add((DeptEmp)o);
+        log.info("Delete success");
       }
       for (DeptEmp d : delete) {
+    	log.info("Deleting association (working in) between Department with dept_no :" + d.getDepartments().getDeptNo()+ "And Employee with emp_no: " + d.getEmployees().getEmpNo());
         session.delete(d);
+        log.info("Delete success");
       }
       tx.commit();
     }
     catch (HibernateException e) {
+      log.error("Delete error");
       log.error(e);
       return;
     }
@@ -169,6 +181,7 @@ public class DeptEmpHome
 		    if(emp_no_bool) q.setParameter("emp_no", emp_no);
 		    if(fd_bool) q.setParameter("from_date", from_date);
 		    if(td_bool) q.setParameter("to_date", to_date);
+		    log.info("Query invocata: " + hql.toString());
 		    int ret=q.executeUpdate();
 		    log.info("Numero righe modificate: " + ret);
 		    tx.commit();
@@ -209,27 +222,28 @@ public class DeptEmpHome
     Session session = factory.openSession();
     Transaction tx = null;
     tx = session.beginTransaction();
-    log.info("Select on departments");
+    log.info("Select on DeptEmp");
     boolean emp_no_bool = true;
     if (emp_no == null) emp_no_bool = false;
     boolean dept_no_bool = !StringUtils.isNullOrEmpty(deptNo);
     boolean fd_bool = !StringUtils.isNullOrEmpty(from_date);
     boolean td_bool = !StringUtils.isNullOrEmpty(to_date);
-    StringBuilder hql = new StringBuilder("FROM DeptEmp d WHERE 1=1 ");
+    StringBuilder hql = new StringBuilder("FROM DeptEmp d WHERE 1=1");
     if (dept_no_bool)
-      hql.append("AND d.departments.deptNo = :dept_no ");
+      hql.append(" AND d.departments.deptNo = :dept_no");
     if (emp_no_bool)
-      hql.append("AND d.employees.empNo = :emp_no ");
+      hql.append(" AND d.employees.empNo = :emp_no");
     if (fd_bool)
-      hql.append("AND d.fromDate = :from_date ");
+      hql.append(" AND d.fromDate = :from_date");
     if (td_bool)
-      hql.append("AND d.toDate = :to_date");
+      hql.append(" AND d.toDate = :to_date");
     Query q = session.createQuery(hql.toString());
     if (dept_no_bool) q.setParameter("dept_no", deptNo);
     if (emp_no_bool) q.setParameter("emp_no", emp_no);
     if (fd_bool) q.setParameter("from_date", from_date);
     if (td_bool)q.setParameter("to_date", to_date);
     q.setMaxResults(20);
+    log.info("Query invocata: " + hql.toString());
     List res = q.getResultList();
     for (Object o : res) {
       DeptEmp d = (DeptEmp)o;
@@ -238,6 +252,7 @@ public class DeptEmpHome
       SimpleEmployee se=new SimpleEmployee(e.getEmpNo(), e.getBirthDate(), e.getFirstName(), e.getLastName(), e.getGender(), e.getHireDate());
       SimpleDepartment sd=new SimpleDepartment(ds.getDeptNo(), ds.getDeptName());
       DeptEmpOutput deo=new DeptEmpOutput(se, sd, d.getFromDate(), d.getToDate());
+      log.info("Selected emp_no:" + deo.getEmployees().getEmpNo() + "And dept_no: " + deo.getDepartment().getDeptNo());
       result.add(deo);
     }
     return result;

@@ -1,7 +1,7 @@
 package it.hibernate;
 // Generated 22-feb-2019 8.27.08 by Hibernate Tools 5.0.6.Final
 
-import java.util.Date;
+import java.sql.Date;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -66,7 +66,6 @@ public class Titles implements java.io.Serializable {
 		this.employees = employees;
 	}
 
-	@Temporal(TemporalType.DATE)
 	@Column(name="to_date")
 	public Date getToDate() {
 		return this.toDate;

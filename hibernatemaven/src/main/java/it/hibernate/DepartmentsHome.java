@@ -58,6 +58,7 @@ public class DepartmentsHome
     try {
       tx = session.beginTransaction();
       session.save(d);
+      log.info("Saved department with: " + "dept_no:"+ d.getDeptNo()+ " Name: " + d.getDeptName());
       tx.commit();
     }
     catch (HibernateException e) {
@@ -74,11 +75,11 @@ public class DepartmentsHome
     Transaction tx = null;
     try {
       tx = session.beginTransaction();
-      StringBuilder s = new StringBuilder("FROM Departments d WHERE 1=1 ");
+      StringBuilder s = new StringBuilder("FROM Departments d WHERE 1=1");
       if (dept_no != null) {
-        s.append("AND d.deptNo = :dept_no ");
+        s.append(" AND d.deptNo = :dept_no ");
       }
-      if (deptName != null) s.append("AND d.deptName = :dept_name");
+      if (deptName != null) s.append(" AND d.deptName = :dept_name");
       Query q = session.createQuery(s.toString());
       if (dept_no != null) {
         q.setParameter("dept_no", dept_no);
@@ -88,7 +89,9 @@ public class DepartmentsHome
       }
       List result = q.getResultList();
       for (Object o : result) {
-        delete.add((Departments)o);
+    	Departments d=(Departments) o;
+    	log.info("Deleting department:" + d.getDeptNo() + " With name: " + d.getDeptName());
+        delete.add(d);
       }
       for (Departments d : delete) {
         session.delete(d);
@@ -140,6 +143,7 @@ public class DepartmentsHome
 	    
 	    if (dept_no_bool) q.setParameter("dept_no", dept_no);
 	    if(dept_bool) q.setParameter("dept_name", dept_name);
+	    log.info("Query invocata: " + hql.toString());
 	    int ret=q.executeUpdate();
 	    log.info("Numero righe modificate: " + ret);
 	    tx.commit();
@@ -183,14 +187,16 @@ public class DepartmentsHome
     log.info("Select on departments");
     boolean dept_no_bool = !StringUtils.isNullOrEmpty(deptNo);
     boolean deptname_bool = !StringUtils.isNullOrEmpty(deptName);
-    StringBuilder hql = new StringBuilder("FROM Departments d WHERE 1=1 ");
+    StringBuilder hql = new StringBuilder("FROM Departments d WHERE 1=1");
     if (dept_no_bool)
-      hql.append("AND d.deptNo = :dept_no");
+      hql.append(" AND d.deptNo = :dept_no");
     if (deptname_bool)
-      hql.append("AND d.deptName = :dept_name");
+      hql.append(" AND d.deptName = :dept_name");
     Query q = session.createQuery(hql.toString());
     if (dept_no_bool) q.setParameter("dept_no", deptNo);
     if (deptname_bool) q.setParameter("dept_name", deptName);
+    q.setMaxResults(20);
+    log.info("Query invocata: " + hql.toString());
     List res = q.getResultList();
     for (Object o : res) {
       Departments d = (Departments)o;
@@ -253,6 +259,7 @@ public List<DepCountOutput> DepCount() {
     String hql = "SELECT d.deptNo, d.deptName, count(*) FROM Departments d INNER JOIN d.deptEmps de join de.employees e GROUP BY d.deptNo";
     Query q=session.createQuery(hql);
     q.setMaxResults(20);
+    log.info("Query invocata: " + hql.toString());
     List res=q.getResultList();
     for(Object r: res){
 	      Object[] row = (Object[]) r;
@@ -276,6 +283,7 @@ public List<ManCountOutput> ManCount() {
 	    String hql = "SELECT d.deptNo, d.deptName, count(*) FROM Departments d INNER JOIN d.deptMans dm join dm.employees e GROUP BY d.deptNo";
 	    Query q=session.createQuery(hql);
 	    q.setMaxResults(20);
+	    log.info("Query invocata: " + hql.toString());
 	    List res=q.getResultList();
 	    for(Object r: res){
 		      Object[] row = (Object[]) r;
